@@ -7,9 +7,11 @@ from app.db import User
 
 users_bp = Blueprint('Users', __name__)
 
-def convertOid(user):
+def process(user):
     if '_id' in user:
         user['_id'] = str(user['_id'])
+
+    user.pop('password', None)
     
     return user
 
@@ -41,7 +43,7 @@ def createUser():
 @users_bp.route('/users', methods=['GET'])
 def getUsers():
     data = User.getAll()
-    data = map(convertOid, data)
+    data = map(process, data)
     resp = json_util.dumps(data)
 
     return Response(resp, mimetype='application/json', content_type='application/json', status=200)
@@ -49,7 +51,7 @@ def getUsers():
 @users_bp.route('/users/<user_id>', methods=['GET'])
 def getUser(user_id):
     data = User.getById(user_id)
-    data = convertOid(data)
+    data = process(data)
     resp = json_util.dumps(data)
 
     return Response(resp, mimetype='application/json', content_type='application/json', status=200)
