@@ -45,6 +45,7 @@ class User:
 
         return result.matched_count
 
+
     @classmethod
     def delete(cls, id):
         mongo.db.users.delete_one({'_id': ObjectId(id)})
