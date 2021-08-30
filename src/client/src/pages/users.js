@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import Navbar from '../modules/navbar'
+import UserList from '../modules/user_list'
 
 const API = process.env.REACT_APP_API;
 
@@ -18,7 +19,7 @@ const Users = () => {
 
     if (id) {
       res = await fetch(`${API}/users/${id}`, {
-        method:'PUT',
+        method:'PATCH',
         headers: {
           'Content-Type': 'Application/json' 
         },
@@ -87,7 +88,7 @@ const Users = () => {
 
   return (
     <>
-      <Navbar></Navbar>
+      <Navbar />
       <section className="container p-2">
         <h1>Users</h1>
         <div className="row">
@@ -124,35 +125,10 @@ const Users = () => {
             </form>
           </div>
           <div className="col-md-8">
-            <table className="table">
-              <thead className="table-dark">
-                <tr>
-                  <th scope="col" className="col">Userame</th>
-                  <th scope="col" className="col">Password</th>
-                  <th scope="col" className="col-2">Options</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map(user => (
-                  <tr key={user._id}>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    <td className="btn-group col">
-                      <button
-                      onClick={() => editUser(user._id)}
-                        className="btn btn-outline-secondary btn-sm">
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => deleteUser(user._id)}
-                        className="btn btn-outline-danger btn-sm"
-                      >Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <UserList 
+              users={users}
+              edit_user={editUser}
+              delete_user={deleteUser} />
           </div>
         </div>
       </section>
