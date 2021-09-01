@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 
-import About from './pages/about'
-import Users from './pages/users'
+import About from './pages/About'
+import Users from './pages/Users'
 
 function App() {
   return (
