@@ -1,25 +1,34 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 import UserContext from "../context/User/UserContext";
 
 const UserForm = () => {
-  const { selected_user, createUser } = useContext(UserContext);
-
-  const [user, setUser] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const {
+    selected_user,
+    createUser,
+    updateUser,
+    setUsername,
+    setPassword,
+    setEmail,
+  } = useContext(UserContext);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    createUser({
-        username: user,
-        password: password,
-        email: email,
-      })
 
-    setUser('')
-    setPassword('')
-    setEmail('')
+    if (selected_user._id) {
+      updateUser();
+    } else {
+      createUser();
+    }
+    // createUser({
+    //     username: user,
+    //     password: password,
+    //     email: email,
+    //   })
+
+    // setUser('')
+    // setPassword('')
+    // setEmail('')
   };
 
   return (
@@ -27,8 +36,8 @@ const UserForm = () => {
       <div className="form-group mt-2 mb-2">
         <input
           type="text"
-          onChange={(e) => setUser(e.target.value)}
-          value={user}
+          onChange={(e) => setUsername(e.target.value)}
+          value={selected_user.username}
           placeholder="Username"
           className="form-control"
           autoFocus
@@ -38,7 +47,7 @@ const UserForm = () => {
         <input
           type="password"
           onChange={(e) => setPassword(e.target.value)}
-          value={password}
+          value={selected_user.password || ""}
           placeholder="Password"
           className="form-control"
         />
@@ -47,7 +56,7 @@ const UserForm = () => {
         <input
           type="email"
           onChange={(e) => setEmail(e.target.value)}
-          value={email}
+          value={selected_user.email}
           placeholder="Email"
           className="form-control"
         />

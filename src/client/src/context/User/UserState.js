@@ -9,7 +9,7 @@ const UserState = (props) => {
   const initialState = {
     users: [],
     selected_user: {
-      _id: null,
+      _id: "",
       username: "",
       password: "",
       email: "",
@@ -33,32 +33,34 @@ const UserState = (props) => {
     const data = await res.json();
 
     dispatch({
-      type: "GET_USER",
+      type: "SET_USER",
       payload: data,
     });
   };
 
-  const createUser = async (data) => {
+  const createUser = async () => {
     await fetch(`${API}/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(state.selected_user),
     });
 
+    resetSelectedUser();
     getUsers();
   };
 
-  const updateUser = async (id, data) => {
-    await fetch(`${API}/users/${id}`, {
+  const updateUser = async () => {
+    await fetch(`${API}/users/${state.selected_user._id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: data,
+      body: JSON.stringify(state.selected_user),
     });
 
+    resetSelectedUser();
     getUsers();
   };
 
@@ -72,6 +74,39 @@ const UserState = (props) => {
     }
   };
 
+  const setUsername = (username) => {
+    dispatch({
+      type: "SET_USERNAME",
+      payload: username,
+    });
+  };
+
+  const setPassword = (password) => {
+    dispatch({
+      type: "SET_PASSWORD",
+      payload: password,
+    });
+  };
+
+  const setEmail = (email) => {
+    dispatch({
+      type: "SET_EMAIL",
+      payload: email,
+    });
+  };
+
+  const resetSelectedUser = () => {
+    dispatch({
+      type: "SET_USER",
+      payload: {
+        _id: "",
+        username: "",
+        password: "",
+        email: "",
+      },
+    });
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -82,6 +117,9 @@ const UserState = (props) => {
         createUser,
         updateUser,
         deleteUser,
+        setUsername,
+        setPassword,
+        setEmail,
       }}
     >
       {props.children}
