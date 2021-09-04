@@ -4,6 +4,9 @@ import {
   SET_USERNAME,
   SET_PASSWORD,
   SET_EMAIL,
+  SET_FIRST,
+  SET_LAST,
+  SET_BIO,
 } from "../types.js";
 
 const UserReducer = (state, action) => {
@@ -46,6 +49,33 @@ const UserReducer = (state, action) => {
         selected_user: {
           ...state.selected_user,
           email: payload,
+        },
+      };
+
+      case SET_FIRST:
+      return {
+        ...state,
+        selected_user: {
+          ...state.selected_user,
+          first: payload,
+        },
+      };
+
+      case SET_LAST:
+      return {
+        ...state,
+        selected_user: {
+          ...state.selected_user,
+          last: payload,
+        },
+      };
+
+      case SET_BIO:
+      return {
+        ...state,
+        selected_user: {
+          ...state.selected_user,
+          biography: payload,
         },
       };
 

@@ -13,6 +13,9 @@ const UserState = (props) => {
       username: "",
       password: "",
       email: "",
+      first: "",
+      last: "",
+      biography: "",
     },
   };
 
@@ -47,7 +50,6 @@ const UserState = (props) => {
       body: JSON.stringify(state.selected_user),
     });
 
-    resetSelectedUser();
     getUsers();
   };
 
@@ -60,7 +62,6 @@ const UserState = (props) => {
       body: JSON.stringify(state.selected_user),
     });
 
-    resetSelectedUser();
     getUsers();
   };
 
@@ -95,6 +96,27 @@ const UserState = (props) => {
     });
   };
 
+  const setFirst = (first) => {
+    dispatch({
+      type: "SET_FIRST",
+      payload: first,
+    });
+  };
+
+  const setLast = (last) => {
+    dispatch({
+      type: "SET_LAST",
+      payload: last,
+    });
+  };
+
+  const setBio = (bio) => {
+    dispatch({
+      type: "SET_BIO",
+      payload: bio,
+    });
+  };
+
   const resetSelectedUser = () => {
     dispatch({
       type: "SET_USER",
@@ -120,6 +142,10 @@ const UserState = (props) => {
         setUsername,
         setPassword,
         setEmail,
+        setFirst,
+        setLast,
+        setBio,
+        resetSelectedUser,
       }}
     >
       {props.children}
